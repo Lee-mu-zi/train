@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.leemuzi.train.member.domain.Member;
 import com.leemuzi.train.member.domain.MemberExample;
 import com.leemuzi.train.member.mapper.MemberMapper;
+import com.leemuzi.train.member.req.MemberRegisterReq;
 import com.leemuzi.train.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,11 +29,12 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 使用手机号注册
-     * @param mobile
+     * @param req
      * @return 返回注册id，如果手机号已经注册，抛出异常
      */
     @Override
-    public long register(String mobile) {
+    public long register(MemberRegisterReq req) {
+        String mobile = req.getMobile();
 
         //创建查询条件，查询手机号是否已经注册
         MemberExample example = new MemberExample();

@@ -1,5 +1,7 @@
 package com.leemuzi.train.member.service;
 
+import com.leemuzi.train.member.req.MemberRegisterReq;
+
 /**
  * @Author 李Muzi
  * @Date 2025/3/21 19:06
@@ -9,5 +11,5 @@ public interface MemberService {
 
     public int count();
 
-    public long register(String mobile);
+    public long register(MemberRegisterReq req);
 }
