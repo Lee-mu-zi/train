@@ -16,5 +16,8 @@ public class BusinessException extends RuntimeException {
         this.e = e;
     }
 
-
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+        return this;
+    }
 }
