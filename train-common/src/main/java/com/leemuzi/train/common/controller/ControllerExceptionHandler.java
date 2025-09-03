@@ -5,9 +5,12 @@ import com.leemuzi.train.common.exception.BusinessException;
 import com.leemuzi.train.common.resp.CommonResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+
 
 /**
  * 统一异常处理、数据预处理等
@@ -26,7 +29,7 @@ public class ControllerExceptionHandler {
     @ResponseBody
     public CommonResp exceptionHandler(Exception e) {
         CommonResp commonResp = new CommonResp();
-        LOG.error("系统异常：", e);
+        LOG.error("系统异常：{}", e);
         commonResp.setSuccess(false);
         commonResp.setMessage("系统出现异常，请联系管理员");
         return commonResp;
@@ -42,9 +45,26 @@ public class ControllerExceptionHandler {
     @ResponseBody
     public CommonResp exceptionHandler(BusinessException e) {
         CommonResp commonResp = new CommonResp();
-        LOG.error("业务异常：", e.getE().getDesc());
+        //业务统一处理异常日志信息更改
+        LOG.error("业务异常：{}", e.getE().getDesc());
         commonResp.setSuccess(false);
         commonResp.setMessage(e.getE().getDesc());
+        return commonResp;
+    }
+
+    /**
+     * 校验异常统一处理
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = BindException.class)
+    @ResponseBody
+    public CommonResp exceptionHandler(BindException e) {
+        CommonResp commonResp = new CommonResp();
+        //业务统一处理异常日志信息更改
+        LOG.error("校验异常：", e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        commonResp.setSuccess(false);
+        commonResp.setMessage(e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
         return commonResp;
     }
 

@@ -1,8 +1,11 @@
 package com.leemuzi.train.member.req;
 
 
+import jakarta.validation.constraints.NotBlank;
+
 public class MemberRegisterReq {
 
+    @NotBlank(message = "【手机号】不能为空")
     private String mobile;
 
     public String getMobile() {
