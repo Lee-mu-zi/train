@@ -1,6 +1,8 @@
 package com.leemuzi.train.member.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.leemuzi.train.common.exception.BusinessException;
+import com.leemuzi.train.common.exception.BusinessExceptionEnum;
 import com.leemuzi.train.member.domain.Member;
 import com.leemuzi.train.member.domain.MemberExample;
 import com.leemuzi.train.member.mapper.MemberMapper;
@@ -45,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
         // 如果查询结果不为空，证明手机号已经注册，返回对应id或抛出异常
         if(CollUtil.isNotEmpty(members)) {
 //            return members.get(0).getId();
-            throw new RuntimeException("该手机号已经注册");
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_EXIST);
         }
 
         //如果手机号没有注册，进行新注册
