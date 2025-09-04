@@ -3,6 +3,7 @@ package com.leemuzi.train.member.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.leemuzi.train.common.exception.BusinessException;
 import com.leemuzi.train.common.exception.BusinessExceptionEnum;
+import com.leemuzi.train.common.util.SnowUtil;
 import com.leemuzi.train.member.domain.Member;
 import com.leemuzi.train.member.domain.MemberExample;
 import com.leemuzi.train.member.mapper.MemberMapper;
@@ -52,7 +53,7 @@ public class MemberServiceImpl implements MemberService {
 
         //如果手机号没有注册，进行新注册
         Member member = new Member();
-        member.setId(System.currentTimeMillis());
+        member.setId(SnowUtil.getSnowflakeNextId());
         member.setMobile(mobile);
         memberMapper.insert(member);
         return member.getId();
