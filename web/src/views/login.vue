@@ -15,9 +15,9 @@
         <a-form-item
             label=""
             name="mobile"
-            :rules="[{ required: true, message: 'Please input your username!' }]"
+            :rules="[{ required: true, message: '请输入手机号!' }]"
         >
-          <a-input v-model:value="loginForm.mobile" placeholder="input mobile"/>
+          <a-input v-model:value="loginForm.mobile"/>
         </a-form-item>
 
         <a-form-item
@@ -25,15 +25,11 @@
             name="code"
             :rules="[{ required: true, message: '请输入验证码!' }]"
         >
-          <a-input-search
-              v-model:value="loginForm.code"
-              placeholder="input code"
-              @search="onSearch"
-          >
-            <template #enterButton>
-              <a-button>获取验证码</a-button>
+          <a-input v-model:value="loginForm.code">
+            <template #addonAfter>
+              <a @click="sendCode">获取验证码</a>
             </template>
-          </a-input-search>
+          </a-input>
         </a-form-item>
 
         <a-form-item>

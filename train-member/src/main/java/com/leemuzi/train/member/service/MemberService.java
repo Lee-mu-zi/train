@@ -1,6 +1,7 @@
 package com.leemuzi.train.member.service;
 
 import com.leemuzi.train.member.req.MemberRegisterReq;
+import com.leemuzi.train.member.req.MemberSendCodeReq;
 
 /**
  * @Author 李Muzi
@@ -9,7 +10,9 @@ import com.leemuzi.train.member.req.MemberRegisterReq;
  */
 public interface MemberService {
 
-    public int count();
+    int count();
 
-    public long register(MemberRegisterReq req);
+    long register(MemberRegisterReq req);
+
+    void sendCode(MemberSendCodeReq req);
 }

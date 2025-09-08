@@ -1,6 +1,7 @@
 package com.leemuzi.train.member.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.leemuzi.train.common.exception.BusinessException;
 import com.leemuzi.train.common.exception.BusinessExceptionEnum;
 import com.leemuzi.train.common.util.SnowUtil;
@@ -8,7 +9,10 @@ import com.leemuzi.train.member.domain.Member;
 import com.leemuzi.train.member.domain.MemberExample;
 import com.leemuzi.train.member.mapper.MemberMapper;
 import com.leemuzi.train.member.req.MemberRegisterReq;
+import com.leemuzi.train.member.req.MemberSendCodeReq;
 import com.leemuzi.train.member.service.MemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,8 @@ import java.util.List;
  */
 @Service
 public class MemberServiceImpl implements MemberService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(MemberServiceImpl.class);
 
     @Autowired
     private MemberMapper memberMapper;
@@ -57,5 +63,35 @@ public class MemberServiceImpl implements MemberService {
         member.setMobile(mobile);
         memberMapper.insert(member);
         return member.getId();
+    }
+
+    @Override
+    public void sendCode(MemberSendCodeReq req) {
+        String mobile = req.getMobile();
+        // 检验手机号是否已经注册
+        MemberExample example = new MemberExample();
+        MemberExample.Criteria criteria = example.createCriteria();
+        criteria.andMobileEqualTo(mobile);
+        List<Member> members = memberMapper.selectByExample(example);
+        if(CollectionUtil.isEmpty(members)){
+            // 如果手机号没有注册过，先注册在发送验证码
+            LOG.info("手机号不存在，插入一条新纪录");
+            Member member = new Member();
+            member.setId(SnowUtil.getSnowflakeNextId());
+            member.setMobile(mobile);
+            memberMapper.insert(member);
+        } else {
+            LOG.info("手机号存在，不插入记录");
+        }
+
+        // 已经存在或新注册完成，生成验证码
+//        String code = RandomUtil.randomString(4);
+        String code = "8888";
+        LOG.info("生成短信验证码：{}", code);
+        // TODO 将验证码放入验证码记录表：手机号、短信验证码、有效期、发送时间、使用时间、使用状态、业务类型
+        LOG.info("保存验证码记录表");
+
+        // TODO 对接短信通道，发送短信
+        LOG.info("对接短信通道");
     }
 }
