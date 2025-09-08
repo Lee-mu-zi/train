@@ -1,0 +1,86 @@
+<template>
+
+  <a-row class="login">
+    <a-col :span="8" :offset="8" class="login-main">
+      <h1 style="text-align: center">
+        <rocket-two-tone/>&nbsp;仿12306售票系统
+      </h1>
+      <a-form
+          :model="loginForm"
+          name="basic"
+          autocomplete="off"
+          @finish="onFinish"
+          @finishFailed="onFinishFailed"
+      >
+        <a-form-item
+            label=""
+            name="mobile"
+            :rules="[{ required: true, message: 'Please input your username!' }]"
+        >
+          <a-input v-model:value="loginForm.mobile" placeholder="input mobile"/>
+        </a-form-item>
+
+        <a-form-item
+            label=""
+            name="code"
+            :rules="[{ required: true, message: '请输入验证码!' }]"
+        >
+          <a-input-search
+              v-model:value="loginForm.code"
+              placeholder="input code"
+              @search="onSearch"
+          >
+            <template #enterButton>
+              <a-button>获取验证码</a-button>
+            </template>
+          </a-input-search>
+        </a-form-item>
+
+        <a-form-item>
+          <a-button type="primary" block>登录</a-button>
+        </a-form-item>
+      </a-form>
+    </a-col>
+  </a-row>
+
+</template>
+<script>
+import {defineComponent, reactive} from 'vue';
+
+export default defineComponent({
+  name: "login-view",
+  setup() {
+    const loginForm = reactive({
+      mobile: '',
+      code: '',
+
+    });
+    const onFinish = values => {
+      console.log('Success:', values);
+    };
+    const onFinishFailed = errorInfo => {
+      console.log('Failed:', errorInfo);
+    };
+    return {
+      loginForm,
+      onFinish,
+      onFinishFailed,
+    };
+  },
+});
+</script>
+
+<style>
+.login-main h1 {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.login-main {
+  margin-top: 100px;
+  padding: 30px 30px 20px;
+  border: 2px solid grey;
+  border-radius: 10px;
+  background-color: #fcfcfc;
+}
+</style>
