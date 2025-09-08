@@ -1,8 +1,10 @@
 package com.leemuzi.train.member.controller;
 
 import com.leemuzi.train.common.resp.CommonResp;
+import com.leemuzi.train.member.req.MemberLoginReq;
 import com.leemuzi.train.member.req.MemberRegisterReq;
 import com.leemuzi.train.member.req.MemberSendCodeReq;
+import com.leemuzi.train.member.resp.MemberLoginResp;
 import com.leemuzi.train.member.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +44,11 @@ public class MemberController {
     public CommonResp<Long> sendCode(@Valid MemberSendCodeReq req) {
         memberService.sendCode(req);
         return new CommonResp<>();
+    }
+
+    @PostMapping("/login")
+    public CommonResp<MemberLoginResp> login(@Valid MemberLoginReq req) {
+        MemberLoginResp resp = memberService.login(req);
+        return new CommonResp<>(resp);
     }
  }

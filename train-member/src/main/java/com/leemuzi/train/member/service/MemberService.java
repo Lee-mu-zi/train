@@ -1,7 +1,9 @@
 package com.leemuzi.train.member.service;
 
+import com.leemuzi.train.member.req.MemberLoginReq;
 import com.leemuzi.train.member.req.MemberRegisterReq;
 import com.leemuzi.train.member.req.MemberSendCodeReq;
+import com.leemuzi.train.member.resp.MemberLoginResp;
 
 /**
  * @Author 李Muzi
@@ -15,4 +17,6 @@ public interface MemberService {
     long register(MemberRegisterReq req);
 
     void sendCode(MemberSendCodeReq req);
+
+    MemberLoginResp login(MemberLoginReq req);
 }
