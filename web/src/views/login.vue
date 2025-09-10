@@ -58,7 +58,6 @@ export default defineComponent({
       axios.post("http://localhost:8000/member/member/send-code", {
         mobile: loginForm.mobile
       }).then(res => {
-        console.log(res);
         let data = res.data;
         if (data.success) {
           notification["success"]({
@@ -83,7 +82,6 @@ export default defineComponent({
           notification["success"]({
             message: "登录成功",
           });
-          console.log(data.content);
         } else {
           notification["error"]({
             message: data.message,
